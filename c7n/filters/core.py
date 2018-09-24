@@ -398,6 +398,11 @@ class ValueFilter(Filter):
         # value extract
         r = self.get_resource_value(self.k, i)
 
+        # Return false for any tag matching if tag retrieval failed
+        # for the resource.
+        if self.k.startswith('tag:') and 'c7n:TagRetrievalFailure' in i:
+            return False
+
         if self.op in ('in', 'not-in') and r is None:
             r = ()
 

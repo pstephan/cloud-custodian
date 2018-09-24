@@ -441,6 +441,8 @@ def assemble_bucket(item):
                 log.warning(
                     "Bucket:%s unable to invoke method:%s error:%s ",
                     b['Name'], m, e.response['Error']['Message'])
+                if k == 'Tags':
+                    b.setdefault('c7n:TagRetrievalFailure', []).append(m)
                 # We don't bail out, continue processing if we can.
                 # Note this can lead to missing data, but in general is cleaner than
                 # failing hard.
